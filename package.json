@@ -1,0 +1,19 @@
+
+{
+  "name": "akash-quote-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^4.9.0",
+    "@x402/core": "^2.31.0",
+    "@x402/evm": "^2.31.0",
+    "@x402/hono": "^2.31.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
