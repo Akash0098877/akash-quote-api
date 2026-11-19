@@ -33,12 +33,14 @@ app.use(
   paymentMiddleware(
     {
       "GET /quote": {
-        accepts: {
-          scheme: "exact",
-          price: "$0.01",
-          network: NETWORK,
-          payTo: PAY_TO
-        },
+        accepts: [
+          {
+            scheme: "exact",
+            price: "$0.01",
+            network: NETWORK,
+            payTo: PAY_TO
+          }
+        ],
         description: "Get one motivational quote",
         mimeType: "application/json"
       }
