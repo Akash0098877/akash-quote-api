@@ -9,9 +9,12 @@ import { ExactEvmScheme } from "@x402/evm/exact/server";
 
 const app = new Hono();
 
+// Payment settings
 const PAY_TO = "0x16d5C74b160fe680B8295E06e0C91Ea9702F1B53";
 const NETWORK = "eip155:8453";
+const FACILITATOR_URL = "https://facilitator.payai.network";
 
+// Random quotes
 const quotes = [
   "Great things take time. Keep building.",
   "Consistency beats temporary motivation.",
@@ -22,13 +25,16 @@ const quotes = [
   "Success comes from patience and persistence."
 ];
 
+// x402 facilitator
 const facilitator = new HTTPFacilitatorClient({
-  url: "https://facilitator.payai.network"
+  url: FACILITATOR_URL
 });
 
+// x402 resource server
 const resourceServer = new x402ResourceServer(facilitator)
   .register(NETWORK, new ExactEvmScheme());
 
+// Protect the quote endpoint with x402 payment
 app.use(
   paymentMiddleware(
     {
@@ -49,16 +55,19 @@ app.use(
   )
 );
 
+// Public homepage
 app.get("/", (c) => {
   return c.json({
     name: "Akash Quote API",
     status: "online",
     endpoint: "/quote",
-    payment: "0.01 USDC",
-    network: "Base Mainnet"
+    price: "$0.01 USDC",
+    network: "Base Mainnet",
+    payment: "x402"
   });
 });
 
+// Paid quote endpoint
 app.get("/quote", (c) => {
   const index = Math.floor(Math.random() * quotes.length);
 
